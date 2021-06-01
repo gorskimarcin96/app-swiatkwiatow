@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  app-main:
+    image: ${APP_NAME}
+    build:
+      context: docker_builder
+    container_name: "${APP_NAME}-app"
+    restart: always
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - app-network
+  redis:
+    container_name: '${APP_NAME}-redis'
+    restart: always
+    image: library/redis:5
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

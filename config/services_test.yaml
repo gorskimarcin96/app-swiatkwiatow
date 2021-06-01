@@ -1,0 +1,6 @@
+services:
+  _defaults:
+    public: true
+
+  App\Tests\Mock\CacheHttpClient: ~
+  App\Utils\CacheHttpClientInterface: '@App\Tests\Mock\CacheHttpClient'
