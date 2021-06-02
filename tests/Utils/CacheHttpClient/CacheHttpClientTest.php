@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Tests\Utils;
+namespace App\Tests\Utils\CacheHttpClient;
 
-use App\Utils\CacheHttpClient;
-use App\Utils\CacheHttpClientInterface;
+use App\Utils\CacheHttpClient\CacheHttpClient;
+use App\Utils\CacheHttpClient\CacheHttpClientInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\CacheItem;
@@ -16,6 +17,9 @@ class CacheHttpClientTest extends KernelTestCase
      */
     private $cacheHttpClient;
 
+    /**
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -24,6 +28,10 @@ class CacheHttpClientTest extends KernelTestCase
         $this->cacheHttpClient->addResponse('test.url.2', 'test.response.2');
     }
 
+    /**
+     * @throws InvalidArgumentException
+     * @return void
+     */
     public function testGetResponseFromUrl(): void
     {
         $response = $this->cacheHttpClient->getResponseFromUrl('test.url.1');
@@ -31,6 +39,10 @@ class CacheHttpClientTest extends KernelTestCase
         self::assertSame('test.response.1', $response);
     }
 
+    /**
+     * @throws InvalidArgumentException
+     * @return void
+     */
     public function testGenerateCache(): void
     {
         $this->cacheHttpClient->getResponseFromUrl('test.url.2');

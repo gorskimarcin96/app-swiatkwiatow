@@ -4,7 +4,7 @@
 namespace App\Tests\Mock;
 
 
-use App\Utils\CacheHttpClientInterface;
+use App\Utils\CacheHttpClient\CacheHttpClientInterface;
 use Exception;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -18,6 +18,7 @@ class CacheHttpClient implements CacheHttpClientInterface
      * @param string $url
      * @return string
      * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function getResponseFromUrl(string $url): string
     {
@@ -47,7 +48,7 @@ class CacheHttpClient implements CacheHttpClientInterface
     {
         $filesystemAdapter = new FilesystemAdapter();
 
-        $cacheItem = $filesystemAdapter->getItem(\App\Utils\CacheHttpClient::CACHE_PREFIX . '.response.' . md5($url));
+        $cacheItem = $filesystemAdapter->getItem(\App\Utils\CacheHttpClient\CacheHttpClient::CACHE_PREFIX . '.response.' . md5($url));
         $cacheItem->set($this->responses[md5($url)]);
 
         $filesystemAdapter->save($cacheItem);

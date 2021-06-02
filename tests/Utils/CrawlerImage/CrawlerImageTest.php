@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Utils;
+namespace App\Tests\Utils\CrawlerImage;
 
-use App\Utils\CrawlerImage;
+use App\Utils\CrawlerImage\CrawlerImage;
 use PHPUnit\Framework\TestCase;
 
 class CrawlerImageTest extends TestCase
@@ -10,6 +10,9 @@ class CrawlerImageTest extends TestCase
     private CrawlerImage $crawlerImage;
     private string $testView;
 
+    /**
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -17,6 +20,9 @@ class CrawlerImageTest extends TestCase
         $this->testView = file_get_contents(__DIR__ . '/test_image_crawler_view.html');
     }
 
+    /**
+     * @return void
+     */
     public function testGetImagesFromHtmlContent(): void
     {
         $response = $this->crawlerImage->getImagesFromHtmlContent($this->testView);
@@ -31,7 +37,10 @@ class CrawlerImageTest extends TestCase
         ], $response);
     }
 
-    public function testGetUniqueImagesFromHtmlContent()
+    /**
+     * @return void
+     */
+    public function testGetUniqueImagesFromHtmlContent(): void
     {
         $response = $this->crawlerImage->getUniqueImagesFromHtmlContent($this->testView);
 

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Utils;
+namespace App\Utils\RandArrayService;
 
 
 use Psr\Cache\InvalidArgumentException;
@@ -46,6 +46,9 @@ class RandArrayService implements RandArrayServiceInterface
         return $this->newRandData;
     }
 
+    /**
+     * @return void
+     */
     private function generateCacheKey(): void
     {
         $this->cacheKeyData = self::CACHE_PREFIX . '.' . hash('md5', implode($this->data));

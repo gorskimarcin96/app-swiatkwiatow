@@ -3,7 +3,7 @@
 namespace App\Tests\Command;
 
 use App\Command\DownloadRandImagesFromWebsiteCommand;
-use App\Utils\CacheHttpClientInterface;
+use App\Utils\CacheHttpClient\CacheHttpClientInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
@@ -16,6 +16,9 @@ class DownloadRandImagesFromWebsiteCommandTest extends KernelTestCase
 {
     private CommandTester $commandTester;
 
+    /**
+     * @return void
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -27,6 +30,9 @@ class DownloadRandImagesFromWebsiteCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($command);
     }
 
+    /**
+     * @param KernelInterface $kernel
+     */
     private function prepareResponseForCacheHttpClientMock(KernelInterface $kernel): void
     {
         $view = '<div>
@@ -44,6 +50,10 @@ class DownloadRandImagesFromWebsiteCommandTest extends KernelTestCase
         $kernel->getContainer()->set(CacheHttpClientInterface::class, $cacheHttpClient);
     }
 
+    /**
+     * @param string $response
+     * @return array
+     */
     private function getArrayStringsResultFromCommand(string $response): array
     {
         $output = explode("\n", str_replace('[INFO]', '', $response));
@@ -52,6 +62,9 @@ class DownloadRandImagesFromWebsiteCommandTest extends KernelTestCase
         return array_filter($output, static fn($value) => $value !== '');
     }
 
+    /**
+     * @return void
+     */
     public function testExecute(): void
     {
         $testValues = [

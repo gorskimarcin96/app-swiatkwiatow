@@ -3,10 +3,11 @@
 namespace App\Command;
 
 use App\Utils\CacheHttpClient;
-use App\Utils\CacheHttpClientInterface;
+use App\Utils\CacheHttpClient\CacheHttpClientInterface;
 use App\Utils\CrawlerImage;
-use App\Utils\CrawlerImageInterface;
-use App\Utils\RandArrayService;
+use App\Utils\CrawlerImage\CrawlerImageInterface;
+use App\Utils\RandArrayService\RandArrayService;
+use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\CacheItem;
@@ -25,6 +26,7 @@ class DownloadRandImagesFromWebsiteCommand extends Command
 {
     protected static $defaultName = 'app:download-rand-images-from-website';
     protected static $defaultDescription = 'Add a short description for your command';
+
     private CacheHttpClientInterface $cacheHttpClient;
     private CrawlerImageInterface $crawlerImageService;
     private LoggerInterface $logger;
@@ -47,6 +49,9 @@ class DownloadRandImagesFromWebsiteCommand extends Command
         $this->logger = $logger;
     }
 
+    /**
+     * @return void
+     */
     protected function configure(): void
     {
         $this
@@ -54,6 +59,12 @@ class DownloadRandImagesFromWebsiteCommand extends Command
             ->addArgument('randImages', InputArgument::OPTIONAL, 'number rand images', 3);
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws InvalidArgumentException
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

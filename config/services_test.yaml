@@ -3,4 +3,4 @@ services:
     public: true
 
   App\Tests\Mock\CacheHttpClient: ~
-  App\Utils\CacheHttpClientInterface: '@App\Tests\Mock\CacheHttpClient'
+  App\Utils\CacheHttpClient\CacheHttpClientInterface: '@App\Tests\Mock\CacheHttpClient'

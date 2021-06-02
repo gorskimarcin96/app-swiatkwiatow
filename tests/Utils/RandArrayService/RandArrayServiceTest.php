@@ -1,16 +1,21 @@
 <?php
 
-namespace App\Tests\Utils;
+namespace App\Tests\Utils\RandArrayService;
 
-use App\Utils\RandArrayService;
+use App\Utils\RandArrayService\RandArrayService;
 use PHPUnit\Framework\TestCase;
+use Psr\Cache\InvalidArgumentException;
 
 class RandArrayServiceTest extends TestCase
 {
+    /**
+     * @return void
+     * @throws InvalidArgumentException
+     */
     public function testRandNotRepeatValues(): void
     {
         foreach (range(0, 1) as $loop) {
-            $testData = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+            $testData = range(0, 9);
             $randArrayService = new RandArrayService($testData);
 
             $randData[] = $randArrayService->randNotRepeatValues(4);
@@ -36,25 +41,21 @@ class RandArrayServiceTest extends TestCase
         }
     }
 
+    /**
+     * @return void
+     * @throws InvalidArgumentException
+     */
     public function testTwoArrayRandNotRepeatValues(): void
     {
         $firstTestData = ['qwe', 'asd', 'zxc'];
         $secondTestData = ['qwe', 'asd', 'zxc', '123'];
 
-        $randArrayService = new RandArrayService($firstTestData);
-        $result = $randArrayService->randNotRepeatValues(2);
-        self::assertCount(2, $result);
-
-        $randArrayService = new RandArrayService($secondTestData);
-        $result = $randArrayService->randNotRepeatValues(2);
-        self::assertCount(2, $result);
-
-        $randArrayService = new RandArrayService($firstTestData);
-        $result = $randArrayService->randNotRepeatValues(2);
-        self::assertCount(1, $result);
-
-        $randArrayService = new RandArrayService($secondTestData);
-        $result = $randArrayService->randNotRepeatValues(2);
-        self::assertCount(2, $result);
+        foreach (range(0, 1) as $loop) {
+            foreach ([$firstTestData, $secondTestData] as $key => $testData) {
+                $randArrayService = new RandArrayService($testData);
+                $result = $randArrayService->randNotRepeatValues(2);
+                self::assertCount(!($loop % 2) && count($testData) === 3 ? 1 : 2, $result);
+            }
+        }
     }
 }

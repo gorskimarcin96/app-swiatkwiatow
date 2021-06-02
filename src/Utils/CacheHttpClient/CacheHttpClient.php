@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Utils;
+namespace App\Utils\CacheHttpClient;
 
 
 use Psr\Cache\InvalidArgumentException;
